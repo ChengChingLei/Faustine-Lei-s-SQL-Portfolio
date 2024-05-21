@@ -103,11 +103,13 @@ CREATE TABLE order_items(
     );
 
 # The sales data covers the period from January 2016 to December 2018.
+
 SELECT EXTRACT(year FROM order_date) AS order_year, EXTRACT(month FROM order_date) AS order_month
 FROM orders
 GROUP BY order_year, order_month;
 
 # The 3 bike stores operate in three states respectively: New York, California, and Texas. The customer base is also concentrated in these states. Additionally, the majority of customers, over 70%, are from New York.
+
 SELECT store_id, city, state
 FROM stores;
 SELECT COUNT(*) AS number_of_customers, state, CONCAT(ROUND(COUNT(*) / (SELECT COUNT(*) FROM customers) * 100), '%')  AS percentage 
@@ -115,6 +117,7 @@ FROM customers
 GROUP BY state;
 
 # Over these three years, bike sales peaked in 2017. Overall, the sales figures fluctuated, reaching their highest point in April, 2018, after which the figures dropped significantly.
+
 SELECT SUM(oi.quantity) AS units_sold, ROUND(SUM(oi.quantity * oi.list_price * (1 - oi.discount)), 0) AS total_sales, EXTRACT(year FROM o.order_date) AS year
 FROM order_items AS oi
 LEFT JOIN orders AS o ON oi.order_id = o.order_id
@@ -125,8 +128,9 @@ LEFT JOIN orders AS o ON oi.order_id = o.order_id
 GROUP BY year, month;
 
 # Analyzing the sales by store reveals that Baldwin Bikes contributes the majority of sales. Bike sales declined across all three stores in 2018. This decline was particularly significant at Baldwin Bikes in New York, where the sales volume decreased from 2,159 in 2017 to 809 in 2018.
+
 SELECT s.store_name AS store, s.state, ROUND(SUM(oi.quantity * oi.list_price * (1 - oi.discount)), 0) AS total_sales, SUM(oi.quantity) AS units_sold,
-	CONCAT(ROUND(SUM(oi.quantity) * 100 / (SELECT SUM(quantity) FROM order_items)), '%') AS percentage,
+    CONCAT(ROUND(SUM(oi.quantity) * 100 / (SELECT SUM(quantity) FROM order_items)), '%') AS percentage,
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2016 THEN oi.quantity ELSE 0 END) AS units_sold_2016,
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2017 THEN oi.quantity ELSE 0 END) AS units_sold_2017,
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2018 THEN oi.quantity ELSE 0 END) AS units_sold_2018
@@ -137,6 +141,7 @@ GROUP BY s.store_name, s.state
 ORDER BY units_sold DESC;
 
 # Breaking down the sales by category, we can see that all categories experienced sales drops except for electric bikes, indicating a potential future trend. Another interesting point is that road bikes had no sales in 2016 but quickly became the second largest sales source. It is also noteworthy that the two bikes are the two most expensive categories compared to others.
+
 SELECT c.category_name,
 	SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2016 THEN oi.quantity ELSE 0 END) AS units_sold_2016,
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2017 THEN oi.quantity ELSE 0 END) AS units_sold_2017,
@@ -168,6 +173,7 @@ GROUP BY c.category_name;
 
 
 # Breaking down the sales by category in each store reveals their primary categories and respective sales trends. Cruisers bikes and Mountain bikes are the most popular categories across all three stores. When all the categories experienced sales drops, Electric bikes showed positive growth across all three stores, while Road bikes sales volume was also increasing in Santa Cruz.
+
 SELECT c.category_name,
 	SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2016 THEN oi.quantity ELSE 0 END) AS '2016',
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2017 THEN oi.quantity ELSE 0 END) AS '2017',
@@ -211,6 +217,7 @@ GROUP BY c.category_name
 ORDER BY TTL_units_sold DESC;
 
 # Electra and Trek are the top-selling brands. Although Electra sold the most bikes overall, Trek led in sales for 2017 and 2018. It is also noteworthy that Sun Bicycles caused a sensation in 2017 but lost attraction quickly in 2018.
+
 SELECT b.brand_name AS brand, 
 	SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2016 THEN oi.quantity ELSE 0 END) AS '2016',
     SUM(CASE WHEN EXTRACT(year FROM o.order_date) = 2017 THEN oi.quantity ELSE 0 END) AS '2017',
@@ -224,6 +231,7 @@ GROUP BY brand
 ORDER BY TTL_units_sold DESC;
 
 # Comparing the main products offered by each brand, Trek focuses on Mountain/Road bikes and leads in electric bikes, whereas Electra specializes in Cruisers and Children's bikes.
+
 SELECT b.brand_name AS brand, 
 	SUM(CASE WHEN c.category_name = 'Children Bicycles' THEN oi.quantity ELSE 0 END) AS 'Children Bicycles',
     SUM(CASE WHEN c.category_name = 'Comfort Bicycles' THEN oi.quantity ELSE 0 END) AS 'Comfort Bicycles',
@@ -240,6 +248,7 @@ LEFT JOIN categories AS c ON p.category_id = c.category_id
 GROUP BY brand;
 
 # Analyzing the ratio of units sold to stock levels, we recommend reallocating more stock from Rowlett Bikes to other stores, particularly Santa Cruz.
+
 WITH order_quantities AS (
     SELECT 
         c.category_name,
@@ -279,6 +288,7 @@ FROM order_quantities o
 LEFT JOIN stock_quantities s ON o.category_name = s.category_name;
 
 # The average number of units per order is 4.4 in both Santa Cruz and Baldwin Bikes, and 4.5 in Rowlett Bikes. Over the years, this average increased from 4.2 in 2016 to 4.5 in 2018, indicating a growing trend in the number of units purchased per order despise an overall drop in sales.
+
 SELECT 
 CASE WHEN store_id = 1 THEN 'Santa Cruz Bikes'
 	 WHEN store_id = 2 THEN 'Baldwin Bikes'
