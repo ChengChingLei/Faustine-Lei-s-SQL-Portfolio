@@ -1,14 +1,14 @@
-#--Dataset: Bike Store Relational Database
-#--Source: Kaggle https://www.kaggle.com/datasets/dillonmyrick/bike-store-sample-database
-#--Queried using: MYSQL
-#--Tools of Choice: Aggregate functions, Subqueries, CASE WHEN, PIVOT and CTEs
-#--Key findings: 
-#--Bike sales peaked in April 2018 during the period from 2016 to 2018, however dropped drastically afterward.
-#--Electric bikes are a growing trend, especially popular in California compared to New York and Texas.
-#--Road bikes show potential as a category that is reflecting a sports trend since 2017.
-#--The average number of items per order is 4.4, having increased from 4.2 in 2016 to 4.5 in 2018, despite an overall drop in sales.
-#--Recommendations:
-#--Stocks should be reallocated from Rowlette Bikes to other stores, especially Santa Cruz Bikes.
+# Dataset: Bike Store Relational Database
+# Source: Kaggle https://www.kaggle.com/datasets/dillonmyrick/bike-store-sample-database
+# Queried using: MYSQL
+# Tools of Choice: Aggregate functions, Subqueries, CASE WHEN, PIVOT and CTEs
+# Key findings: 
+#   Bike sales peaked in April 2018 during the period from 2016 to 2018, however dropped drastically afterward.
+#   Electric bikes are a growing trend, especially popular in California compared to New York and Texas.
+#   Road bikes show potential as a category that is reflecting a sports trend since 2017.
+#   The average number of items per order is 4.4, having increased from 4.2 in 2016 to 4.5 in 2018, despite an overall drop in sales.
+#   Recommendations:
+#   Stocks should be reallocated from Rowlette Bikes to other stores, especially Santa Cruz Bikes.
 
 
 CREATE SCHEMA bikes;
