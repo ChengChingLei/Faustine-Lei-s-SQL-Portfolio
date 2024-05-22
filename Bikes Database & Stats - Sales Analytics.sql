@@ -247,7 +247,7 @@ LEFT JOIN brands AS b ON p.brand_id = b.brand_id
 LEFT JOIN categories AS c ON p.category_id = c.category_id
 GROUP BY brand;
 
-#--Analyzing the ratio of units sold to stock levels, we recommend reallocating more stock from Rowlett Bikes to other stores, particularly Santa Cruz.
+#--Analyzing the ratio of units sold to stock levels, I recommend reallocating more stock from Rowlett Bikes to other stores, particularly Santa Cruz.
 
 WITH order_quantities AS (
     SELECT 
